@@ -54,7 +54,7 @@ public class GemController : MonoBehaviour {
         m_Gem.GetComponent<Renderer>( ).material.SetColor( "_EmissionColor", m_GemColor[gem_num] );
         m_LineRenderer.GetComponent<Renderer>( ).material.SetColor( "_EmissionColor", m_GemColor[gem_num] );
     }
-    public void ResetHitState() {
+    public void ResetHitState( ) {
         m_is_hit_gem = false;
     }
 
