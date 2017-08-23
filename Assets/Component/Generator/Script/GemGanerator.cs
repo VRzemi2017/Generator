@@ -34,7 +34,7 @@ public class GemGanerator : MonoBehaviour {
     //生成されるGemの配列番号
     private int m_gem_parent_num;
     //GemParentを管理するList
-    private List<Transform> m_gem_parent;
+    private List<Transform> m_gem_parent = new List<Transform>();
     //-------------------------//
 
 
@@ -51,9 +51,10 @@ public class GemGanerator : MonoBehaviour {
             m_gem_parent.Add(gem_parent);
             for (int j = 0; j < m_GemMakePos[i].m_List.Count; j++) {
                 Transform trans = m_GemMakePos[i].m_List[j].gameObject.transform;
-                GameObject gem = Instantiate(m_GemPrefab, trans);
+                GameObject gem = Instantiate(m_GemPrefab);
                 //Parentをセットすることで、管理する。
                 gem.transform.SetParent(gem_parent, false);
+                gem.transform.position = trans.position;
             }
             m_gem_parent[i].gameObject.SetActive(false);
         }

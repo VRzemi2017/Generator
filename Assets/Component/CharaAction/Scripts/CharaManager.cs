@@ -5,22 +5,15 @@ using UnityEngine;
 public class CharaManager : MonoBehaviour {
 
 	[SerializeField]
-	private GameObject enemy01;
-	[SerializeField]
-	private GameObject enemy02;
-	[SerializeField]
-	private GameObject enemy03;
-	[SerializeField]
-	private GameObject enemy04;
-	[SerializeField]
-	private GameObject enemy05;
-	[SerializeField]
-	private GameObject enemy06;
-	[SerializeField]
-	private GameObject enemy07;
+	private List<GameObject> enemy;
 
+    public void SetEnemyActive(int num, bool active) {
+        enemy[num].SetActive(active);
+    }
 
-    public void SetEnemyActive(int num, bool Active) {
-        //enemy[num].setActive(Active);
+    public void SetEnemyAllActive(bool active) {
+        foreach (GameObject _ in enemy ) {
+            _.SetActive(active);
+        }
     }
 }

@@ -40,6 +40,7 @@ public class EnemyGanrator : MonoBehaviour {
     private void Start() {
         m_now_wave = 0;
         m_total_time = 0;
+        m_charaManager.SetEnemyAllActive(false);
         CheckNowWaveViewTime();
     }
 
@@ -56,8 +57,11 @@ public class EnemyGanrator : MonoBehaviour {
             default:
                 break;
         }
+        DebugCode();
     }
-
+    private void DebugCode() {
+        CheckWaveView();
+    }
     private void CheckWaveView() {
         m_total_time += Time.deltaTime;
         if (m_total_time >= m_now_wave_view_time) {
@@ -65,12 +69,12 @@ public class EnemyGanrator : MonoBehaviour {
             //もしDisPoseがTrueであればそのWaveのEnemyをすべて消す
             if (m_EnemyWave[m_now_wave].m_DisposeOnNewWave && m_now_wave != 0) {
                 foreach (int index in m_EnemyWave[m_now_wave].m_List){
-                    //m_charaManager.SetEnemyActive(index, false);
+                    m_charaManager.SetEnemyActive(index, false);
                 }
             }
             //次のWaveのEnemyを登場させる
             foreach (int index in m_EnemyWave[m_now_wave].m_List) {
-                //m_charaManager.SetEnemyActive(index, true);
+                m_charaManager.SetEnemyActive(index, true);
             }
             m_now_wave++;
             CheckNowWaveViewTime();
