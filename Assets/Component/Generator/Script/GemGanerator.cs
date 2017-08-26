@@ -93,8 +93,8 @@ public class GemGanerator : MonoBehaviour {
                 SetGemWaveActive(true);
                 break;
             case ADD_MODE.CHANGE:
-                //前のものの表示を消す
-                SetGemWaveActive(false);
+                //前のものを表示を消す
+                ResetAllWave();
                 NextGems( );
                 SetGemWaveActive(true);
                 break;
@@ -109,6 +109,14 @@ public class GemGanerator : MonoBehaviour {
     private void SetGemWaveActive( bool flg_act ) {
         for (int i = 0; i < m_GemWaveList[m_gem_wave_num].m_List.Count; i++){
             m_GemWaveList[m_gem_wave_num].m_List[i].SetActive(flg_act);
+        }
+    }
+
+    private void ResetAllWave() {
+        for (int i = 0; i < m_GemWaveList.Count; i++) {
+            for (int j = 0; j < m_GemWaveList[i].m_List.Count; j++) {
+                m_GemWaveList[i].m_List[j].SetActive(false);
+            }
         }
     }
 }
