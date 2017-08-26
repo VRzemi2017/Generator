@@ -7,41 +7,39 @@ using UnityEngine;
 public class EnmeyWaveList
 {
     public List<int> m_List = new List<int>();
-    public bool m_DisposeOnNewWave;
 
-    public EnmeyWaveList(List<int> list)
-    {
+    public EnmeyWaveList(List<int> list) {
         m_List = list;
     }
 }
 
 public class EnemyGanrator : MonoBehaviour {
+    //エネミーの加算方法
+    private enum ADD_MODE {
+        ADD,
+        CHANGE,
+        MODE_MAX
+    }
+
     //一番外側のサイズはWave数を設定する
     //Element一つ一つの中のサイズが各Waveの敵の数をする
     //最後のElementは敵の番号を設定する
     [SerializeField]
     private List<EnmeyWaveList> m_EnemyWave = new List<EnmeyWaveList>();
-    //Waveの間隔時間を設定する、最初のElementは開始してから敵が1Wave目の敵が出現するまでの時間,
-    //配列の数がWave数よりも少ない場合は最初のElementの時間を参照して敵を出現させる
-    [SerializeField]
-    private List<float> m_EnemyWaveViewtime = new List<float>();
     //敵のマネージャー
     [SerializeField]
     private CharaManager m_charaManager;
+    [SerializeField]
+    private int m_AddMode;
 
     //現在のWave数
     private int m_now_wave;
-    //Wave開始からの時間
-    private float m_total_time;
-    //次のWaveが表示されるまでの時間
-    private float m_now_wave_view_time;
 
 
-    private void Start() {
+    private void Start( ) {
         m_now_wave = 0;
-        m_total_time = 0;
         m_charaManager.SetEnemyAllActive(false);
-        CheckNowWaveViewTime();
+        SetEnemyWaveActice(true);
     }
 
     private void Update() {
@@ -63,28 +61,33 @@ public class EnemyGanrator : MonoBehaviour {
         CheckWaveView();
     }
     private void CheckWaveView() {
-        m_total_time += Time.deltaTime;
-        if (m_total_time >= m_now_wave_view_time) {
-            m_total_time = 0;
-            //もしDisPoseがTrueであればそのWaveのEnemyをすべて消す
-            if (m_EnemyWave[m_now_wave].m_DisposeOnNewWave && m_now_wave != 0) {
-                foreach (int index in m_EnemyWave[m_now_wave].m_List){
-                    m_charaManager.SetEnemyActive(index, false);
-                }
-            }
-            //次のWaveのEnemyを登場させる
-            foreach (int index in m_EnemyWave[m_now_wave].m_List) {
-                m_charaManager.SetEnemyActive(index, true);
-            }
-            m_now_wave++;
-            CheckNowWaveViewTime();
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            m_AddMode++;
+            m_AddMode = m_AddMode % (int)ADD_MODE.MODE_MAX;
+        }
+
+        if (!Input.GetKeyDown(KeyCode.N)) {
+            return;
+        }
+
+        switch ((ADD_MODE)m_AddMode) {
+            case ADD_MODE.ADD:
+                m_now_wave++;
+                SetEnemyWaveActice(true);
+                break;
+            case ADD_MODE.CHANGE:
+                //前のものの表示を消す
+                SetEnemyWaveActice(false);
+                m_now_wave++;
+                SetEnemyWaveActice(true);
+                break;
         }
     }
 
-    private void CheckNowWaveViewTime() {
-        m_now_wave_view_time = m_EnemyWaveViewtime[0];
-        if (m_EnemyWaveViewtime.Count > m_now_wave) {
-            m_now_wave_view_time = m_EnemyWaveViewtime[m_now_wave];
+    private void SetEnemyWaveActice(bool flg_act) {
+        foreach (int index in m_EnemyWave[m_now_wave].m_List) {
+            m_charaManager.SetEnemyActive(index, flg_act);
         }
     }
 
