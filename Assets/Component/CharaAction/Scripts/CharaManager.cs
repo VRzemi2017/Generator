@@ -9,6 +9,7 @@ public class CharaManager : MonoBehaviour {
 
     public void SetEnemyActive(int num, bool active) {
         enemy[num].SetActive(active);
+        enemy[num].GetComponent<FieldObjectController>().SetSoundActive(active);
     }
 
     public void SetEnemyAllActive(bool active) {
