@@ -63,12 +63,12 @@ public class GemGanerator : MonoBehaviour {
 
         switch ( game_state ) {
             case MainManager.GameState.GAME_START:
-
                 break;
             case MainManager.GameState.GAME_PLAYING:
                 GenerateUpdate( );
                 break;
             case MainManager.GameState.GAME_FINISH:
+                m_GemParents.gameObject.SetActive(false);
                 break;
             default:
                 break;
