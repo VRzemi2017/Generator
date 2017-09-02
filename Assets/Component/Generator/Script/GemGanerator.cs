@@ -144,19 +144,15 @@ public class GemGanerator : MonoBehaviour {
         }
     }
 
-    public void SetWave(ADD_MODE mode, int wave){
-        switch (mode)
-        {
-            case ADD_MODE.ADD:
-                m_gem_wave_num = wave;
-                SetGemWaveActive(true);
-                break;
-            case ADD_MODE.CHANGE:
-                //前のものを表示を消す
-                ResetAllWave();
-                m_gem_wave_num = wave;
-                SetGemWaveActive(true);
-                break;
+    public void SetWave(bool isAddMode, int wave){
+        if (isAddMode) {
+            m_gem_wave_num = wave;
+            SetGemWaveActive(true);
+        } else {
+            //前のものを表示を消す
+            ResetAllWave();
+            m_gem_wave_num = wave;
+            SetGemWaveActive(true);
         }
     }
 }

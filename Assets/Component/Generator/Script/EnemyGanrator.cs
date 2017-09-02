@@ -111,18 +111,15 @@ public class EnemyGanrator : MonoBehaviour {
         }
     }
 
-    public void SetWave(ADD_MODE mode, int wave) {
-        switch (mode) {
-            case ADD_MODE.ADD:
-                m_now_wave = wave;
-                SetEnemyWaveActice(true);
-                break;
-            case ADD_MODE.CHANGE:
-                //前のものを表示を消す
-                m_charaManager.SetEnemyAllActive(false);
-                m_now_wave = wave;
-                SetEnemyWaveActice(true);
-                break;
+    public void SetWave(bool isAddMode, int wave) {
+        if (isAddMode) {
+            m_now_wave = wave;
+            SetEnemyWaveActice(true);
+        } else {
+            //前のものを表示を消す
+            m_charaManager.SetEnemyAllActive(false);
+            m_now_wave = wave;
+            SetEnemyWaveActice(true);
         }
     }
 
